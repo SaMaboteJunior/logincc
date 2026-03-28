@@ -19,30 +19,24 @@ async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  if (isLogin) {
-    const { data, error } = await client.auth.signInWithPassword({
-      email,
-      password
-    });
-
-    if (error) {
-      alert("Erro: " + error.message);
-    } else {
-      alert("Login feito!");
-      window.location.href = "dashboard.html";
-    }
-
-  } else {
-    const { data, error } = await client.auth.signUp({
-      email,
-      password
-    });
-
-    if (error) {
-      alert("Erro: " + error.message);
-    } else {
-      alert("Conta criada! Verifique o email.");
-    }
+  // 🚨 validação básica
+  if (!email || !password) {
+    alert("Preencha email e senha!");
+    return;
   }
-  window.location.href = "cadastro.html";
+
+  const { data, error } = await client.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    alert("Erro: " + error.message);
+  } else {
+    alert("Login feito com sucesso!");
+    
+    // ✅ só redireciona se deu certo
+    window.location.href = "cadastro.html";
+  }
 }
+
